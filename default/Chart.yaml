@@ -1,6 +1,7 @@
 apiVersion: v2
 name: default
-description: A Helm chart for Kubernetes
+description: A Helm chart for my application
+icon: "https://raw.githubusercontent.com/kubernetes/community/master/icons/png/resources/unlabeled/deploy-128.png"
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -22,3 +23,15 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
+
+dependencies: []
+  # - name: mysql
+  #   version: 9.*
+  #   repository: https://charts.bitnami.com/bitnami
+  #   condition: mysql.enabled
+
+
+# adjust it if it's not you
+maintainers:
+  - name: 'hoverkraft-tech'
+    email: 'contact@hoverkraft.cloud'
