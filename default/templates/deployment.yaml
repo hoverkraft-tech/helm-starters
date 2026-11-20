@@ -42,15 +42,15 @@ spec:
               protocol: TCP
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
-            {{- toYaml .Values.startupProbe | nindent 12 }}
+            {{- toYaml (omit .Values.startupProbe "enabled") | nindent 12 }}
           {{- end }}
           {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            {{- toYaml (omit .Values.livenessProbe "enabled") | nindent 12 }}
           {{- end }}
           {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            {{- toYaml (omit .Values.readinessProbe "enabled") | nindent 12 }}
           {{- end }}
           {{- if .Values.resources }}
           resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" $) | nindent 12 }}

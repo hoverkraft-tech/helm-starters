@@ -27,6 +27,28 @@ helm starter list
 helm create myapp -p helm-starters/default
 ```
 
+## Contributing
+
+- We use [mise](https://mise.jdx.dev/) for tooling. You will need to install it.
+- run the following commands :
+
+```shell
+mise trust
+mise install
+mise exec -- uv sync
+helm plugin install https://github.com/jtyr/kubeconform-helm
+prek install
+```
+
+### Running tests
+
+You can run tests with mise commands:
+
+```shell
+mise run tests # run all tests
+mise run <test name> # just run one test (ex: kubeconform)
+```
+
 ---
 
 Made with ❤️ by Hoverkraft-Tech
