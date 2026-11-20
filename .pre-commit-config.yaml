@@ -12,6 +12,13 @@ repos:
         pass_filenames: false
         args: [--keep-existing-dep-schemas]
 
+  - repo: https://github.com/norwoodj/helm-docs
+    rev: v1.14.2
+    hooks:
+      - id: helm-docs
+        args:
+          - --document-dependency-values
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:

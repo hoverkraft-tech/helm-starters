@@ -42,6 +42,12 @@
       "title": "autoscaling",
       "type": "object"
     },
+    "common": {
+      "additionalProperties": true,
+      "description": "bitnami common dependency values",
+      "required": [],
+      "title": "common"
+    },
     "exampleValue": {
       "default": "common-chart",
       "description": "# bitnami/common\n# It is required by CI/CD tools and processes.\n#\n#",
@@ -57,6 +63,135 @@
       "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
       "required": [],
       "title": "global",
+      "type": "object"
+    },
+    "httpRoute": {
+      "additionalProperties": false,
+      "description": "Expose the service via gateway-api HTTPRoute\nRequires Gateway API resources and suitable controller installed within the cluster\n(see: https://gateway-api.sigs.k8s.io/guides/)",
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "HTTPRoute annotations.",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "enabled": {
+          "default": false,
+          "description": "HTTPRoute enabled.",
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "hostnames": {
+          "description": "Hostnames matching HTTP header.",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              }
+            ],
+            "required": []
+          },
+          "title": "hostnames",
+          "type": "array"
+        },
+        "parentRefs": {
+          "description": "Which Gateways this Route is attached to.",
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "default": "gateway",
+                    "title": "name",
+                    "type": "string"
+                  },
+                  "sectionName": {
+                    "default": "http",
+                    "title": "sectionName",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "sectionName"
+                ],
+                "type": "object"
+              }
+            ],
+            "required": []
+          },
+          "title": "parentRefs",
+          "type": "array"
+        },
+        "rules": {
+          "description": "List of rules and filters applied.",
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "matches": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "path": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "type": {
+                                  "default": "PathPrefix",
+                                  "title": "type",
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "default": "/headers",
+                                  "title": "value",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "value"
+                              ],
+                              "title": "path",
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "path"
+                          ],
+                          "type": "object"
+                        }
+                      ],
+                      "required": []
+                    },
+                    "title": "matches",
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "matches"
+                ],
+                "type": "object"
+              }
+            ],
+            "required": []
+          },
+          "title": "rules",
+          "type": "array"
+        }
+      },
+      "required": [
+        "enabled",
+        "annotations",
+        "parentRefs",
+        "hostnames",
+        "rules"
+      ],
+      "title": "httpRoute",
       "type": "object"
     },
     "image": {
@@ -90,7 +225,7 @@
       "type": "object"
     },
     "imagePullSecrets": {
-      "description": "This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/",
+      "description": "This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/",
       "items": {
         "required": []
       },
@@ -228,7 +363,6 @@
     },
     "livenessProbe": {
       "additionalProperties": false,
-      "description": "Setup the startup, liveness and readiness probes\nmore information can be found in the official docs:\nhttps://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/",
       "properties": {
         "enabled": {
           "default": false,
@@ -340,10 +474,10 @@
       "type": "integer"
     },
     "resources": {
-      "additionalProperties": false,
+      "additionalProperties": true,
+      "description": "resources configuration for the container",
       "required": [],
-      "title": "resources",
-      "type": "object"
+      "title": "resources"
     },
     "resourcesPreset": {
       "default": "micro",
@@ -386,7 +520,7 @@
       "properties": {
         "annotations": {
           "additionalProperties": false,
-          "description": "Annotations to add to the service account",
+          "description": "Annotations to add to the service account.",
           "required": [],
           "title": "annotations",
           "type": "object"
@@ -399,13 +533,13 @@
         },
         "create": {
           "default": true,
-          "description": "Specifies whether a service account should be created",
+          "description": "Specifies whether a service account should be created.",
           "title": "create",
           "type": "boolean"
         },
         "name": {
           "default": "",
-          "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template",
+          "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template.",
           "title": "name",
           "type": "string"
         }
@@ -421,6 +555,7 @@
     },
     "startupProbe": {
       "additionalProperties": false,
+      "description": "Setup the startup, liveness and readiness probes\nmore information can be found in the official docs:\nhttps://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/",
       "properties": {
         "enabled": {
           "default": false,
@@ -493,11 +628,11 @@
     "securityContext",
     "service",
     "ingress",
+    "httpRoute",
     "resourcesPreset",
-    "resources",
+    "startupProbe",
     "livenessProbe",
     "readinessProbe",
-    "startupProbe",
     "autoscaling",
     "volumes",
     "volumeMounts",

@@ -3,4 +3,4 @@
 #MISE description="run helm-docs on the given helm chart"
 
 cd "${HELM_CHART_NAME}" || exit 1
-helm-docs
+helm-docs --document-dependency-values
